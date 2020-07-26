@@ -96,6 +96,14 @@ export default class home extends Component {
     //   })
     // }, 200)
   }
+  handleMenuClick = (id,name) => {
+    switch (id) {
+      case 1:
+        this.props.history.push(`list/${id}/${name}`)
+        break;
+    
+    }
+  }
   // 渲染菜单
   renderMenu = (menu) => {
     return (
@@ -103,7 +111,9 @@ export default class home extends Component {
         <Grid.Row columns={4}>
           {menu.map((item) => {
             return (
-              <Grid.Column key={item.id}>
+              <Grid.Column key={item.id} onclick={() => {
+                this.handleMenuClick(item.id,item.menu_name)
+              }}>
                 <div className="home-menu-item">
                   <Icon name="home" size="big" />
                   <div style={{ marginTop: 5 }}>{item.menu_name}</div>
