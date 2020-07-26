@@ -12,6 +12,43 @@ import ImageGallery from 'react-image-gallery'
 // 引入第三方样式
 import './home.css'
 import 'react-image-gallery/styles/css/image-gallery.css'
+// 封装房间组件
+function HousesList(name, houses) {
+  return (
+    <div>
+      <div className="home-hire-title">{name}</div>
+      <Item.Group unstackable>
+        {houses.map((item) => {
+          return (
+            <Item key={item.id}>
+              <Item.Image
+                size="tiny"
+                src="http://47.96.21.88:8086/public/home.png"
+              />
+
+              <Item.Content>
+                <Item.Header>{item.home_name}</Item.Header>
+                <Item.Meta>{item.home_desc}</Item.Meta>
+                <Item.Description>
+                  {item.home_tags.split(',').map((subitem, index) => {
+                    return (
+                      <Button key={index} basic color="green">
+                        {subitem}
+                      </Button>
+                    )
+                  })}
+                </Item.Description>
+                <Item.Description>
+                  <span>{item.home_price}</span>
+                </Item.Description>
+              </Item.Content>
+            </Item>
+          )
+        })}
+      </Item.Group>
+    </div>
+  )
+}
 export default class home extends Component {
   constructor() {
     super()
@@ -45,19 +82,19 @@ export default class home extends Component {
     //     this.axios.post('homes/faqs'),
     //     this.axios.post('homes/house')
     // ])
-    // this.setState({
-    //     swipe: res[0].data.data.list,
-    //     menu: res[1].data.data.list,
-    //     infos: res[2].data.data.list,
-    //     faqs: res[3].data.data.list,
-    //     house: res[4].data.data.list,
-
-    // })
-    setTimeout(() => {
-      this.setState({
-        isLoading: false,
-      })
-    }, 200)
+    this.setState({
+      // swipe: res[0].data.data.list,
+      // menu: res[1].data.data.list,
+      // infos: res[2].data.data.list,
+      // faqs: res[3].data.data.list,
+      // house: res[4].data.data.list,
+      isLoading: false,
+    })
+    // setTimeout(() => {
+    //   this.setState({
+    //     isLoading: false,
+    //   })
+    // }, 200)
   }
   // 渲染菜单
   renderMenu = (menu) => {
@@ -136,8 +173,25 @@ export default class home extends Component {
       </div>
     )
   }
+
+  // 渲染首页房屋列表
+  renderHouse = (house) => {
+    const newHouse = house.filter((item) => item.home_type === 1)
+    //2、二手精选
+    const oldHouses = house.filter((item) => item.home_type === 2)
+
+    //3、热门房源
+    const hotHouses = house.filter((item) => item.home_type === 3)
+    return (
+        <div>
+          <HousesList name="最新房源" houses={newHouse}/>
+          <HousesList name="二手房源" houses={oldHouses}/>
+          <HousesList name="热门房源" houses={hotHouses}/>
+        </div>
+    )
+  }
   render() {
-    const { isLoading, swipe, menu, infos, faqs } = this.state
+    const { isLoading, swipe, menu, infos, faqs, house } = this.state
     return (
       <div className="home-container">
         {/* 导入蒙版 */}
@@ -167,6 +221,8 @@ export default class home extends Component {
           {this.Infos(infos)}
           {/* 问答 */}
           {this.renderFaqs(faqs)}
+          {/* 房子 */}
+          {this.renderHouse(house)}
         </div>
       </div>
     )
