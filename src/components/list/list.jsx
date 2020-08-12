@@ -46,7 +46,7 @@ export default class list extends Component {
           </div>
         </div>
         <Item.Group unstackable>
-          {houses.map((item) => {
+          {/* {houses.map((item) => {
             return (
               <Item key={item.id}>
                 <Item.Image
@@ -64,7 +64,7 @@ export default class list extends Component {
                 </Item.Content>
               </Item>
             )
-          })}
+          })} */}
         </Item.Group>
       </div>
     )

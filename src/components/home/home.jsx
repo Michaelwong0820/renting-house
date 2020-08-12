@@ -12,6 +12,10 @@ import ImageGallery from 'react-image-gallery'
 // 引入第三方样式
 import './home.css'
 import 'react-image-gallery/styles/css/image-gallery.css'
+import Map from '../map/map'
+import Calc from '../calc/calc'
+import {connect} from 'react-redux'
+import {mapAction,calcAction} from '../../store/actionCreators'
 // 封装房间组件
 function HousesList(name, houses) {
   return (
@@ -49,7 +53,7 @@ function HousesList(name, houses) {
     </div>
   )
 }
-export default class home extends Component {
+class Home extends Component {
   constructor() {
     super()
     this.state = {
@@ -101,7 +105,8 @@ export default class home extends Component {
       case 1:
         this.props.history.push(`list/${id}/${name}`)
         break;
-    
+      case 5:
+        break
     }
   }
   // 渲染菜单
@@ -134,6 +139,7 @@ export default class home extends Component {
             <Item.Image
               size="small"
               src="https://picsum.photos/id/1018/250/150/"
+              onClick={()=>{this.props.showCalc()}}
             />
             <Item.Content>
               {infos.map((item) => {
@@ -194,20 +200,23 @@ export default class home extends Component {
     const hotHouses = house.filter((item) => item.home_type === 3)
     return (
         <div>
-          <HousesList name="最新房源" houses={newHouse}/>
+          {/* <HousesList name="最新房源" houses={newHouse}/>
           <HousesList name="二手房源" houses={oldHouses}/>
-          <HousesList name="热门房源" houses={hotHouses}/>
+          <HousesList name="热门房源" houses={hotHouses}/> */}
         </div>
     )
   }
   render() {
     const { isLoading, swipe, menu, infos, faqs, house } = this.state
+    const {isShowMap,isShowCalc} = this.props
     return (
       <div className="home-container">
         {/* 导入蒙版 */}
         <Dimmer active={isLoading} inverted>
           <Loader inverted>数据加载中...</Loader>
         </Dimmer>
+        {isShowMap && <Map/>}
+        {isShowCalc && <Calc /> }
         <div className="home-topbar">
           {/* 搜索框 */}
           <Input
@@ -238,3 +247,20 @@ export default class home extends Component {
     )
   }
 }
+const mapStateToProps  = state => {
+  return {
+    isShowMap:state.isShowMap,
+    isShowCalc:state.isShowCalc
+  }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+      showMap(){
+        dispatch(mapAction(true))
+      },
+      showCalc() {
+        dispatch(calcAction(true))
+      }
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Home)
