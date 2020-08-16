@@ -8900,6 +8900,11 @@ react-swipeable@^5.2.0:
   dependencies:
     prop-types "^15.6.2"
 
+react-touch-loader@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-touch-loader/-/react-touch-loader-1.1.4.tgz#ccd49012b645d2492113178684f9f4ecae742ab6"
+  integrity sha512-Dx5Me++6pQwalnaN00O3Xc7RQz++O2Cp/9DJX3kEH+GGcO2vlNKvGBztaoxg/K0gYKOXdnPVfmDeFsa9RLykpA==
+
 react@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
